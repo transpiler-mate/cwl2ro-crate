@@ -30,10 +30,13 @@ def parse_img_name(img_name):
     return registry, name
 
 
-def parse_img(img_str):
+def parse_img(img_str: str) -> dict[str, str] | str:
     """\
     Parse image string following the docker pull syntax NAME[:TAG|@DIGEST].
     CWL's DockerRequirement also accepts HTTP URLs for docker load.
+
+    Raises:
+        ValueError: If a digest uses an algorithm other than SHA-256.
     """
     parsed = {}
     if img_str.startswith("http://") or img_str.startswith("https://"):
@@ -42,7 +45,8 @@ def parse_img(img_str):
     if len(parts) == 2:
         parsed["registry"], parsed["name"] = parse_img_name(parts[0])
         algo, digest = parts[1].split(":", 1)
-        assert algo == "sha256"
+        if algo != "sha256":
+            raise ValueError("Container image digests must use sha256")
         parsed[algo] = digest
         return parsed
     parts = img_str.rsplit(":", 1)
@@ -50,6 +54,5 @@ def parse_img(img_str):
         parsed["registry"], parsed["name"] = parse_img_name(parts[0])
         parsed["tag"] = parts[1]
         return parsed
-    assert len(parts) == 1
     parsed["registry"], parsed["name"] = parse_img_name(parts[0])
     return parsed

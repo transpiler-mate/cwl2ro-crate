@@ -1,5 +1,5 @@
 <!--
-Copyright 2026 Transpiler-Mate
+Copyright 2026 Terradue
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,6 +15,11 @@ limitations under the License.
 -->
 
 # CWL 2 RO-Crate
+
+[![PyPI - Version](https://img.shields.io/pypi/v/cwl2rocrate.svg)](https://pypi.org/project/cwl2rocrate)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/cwl2rocrate.svg)](https://pypi.org/project/cwl2rocrate)
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/transpiler-mate/cwl2rocrate/package.yaml?branch=develop&event=push&label=build&logo=githubactions)](https://github.com/transpiler-mate/cwl2rocrate/actions/workflows/package.yaml?query=branch%3Adevelop)
+[![Code coverage](https://img.shields.io/codecov/c/github/transpiler-mate/cwl2rocrate/develop?logo=codecov)](https://app.codecov.io/gh/transpiler-mate/cwl2rocrate/tree/develop)
 
 Package a selected CWL workflow as a **Workflow RO-Crate**, or provide a CWLProv
 execution directory to create a **Provenance Run Crate**. The plugin runs through
@@ -98,4 +103,7 @@ and [architecture](docs/explanation/architecture.md).
 
 The Apache-licensed runcrate conversion subset is included to avoid its released
 package's incompatible `cwl-utils==0.40` pin. See [THIRD_PARTY.md](THIRD_PARTY.md).
-Licensed under [Apache 2.0](LICENSE).
+
+## License
+
+[![Apache License, Version 2.0](https://img.shields.io/badge/license-Apache%20License%202.0-blue)](https://www.apache.org/licenses/LICENSE-2.0)

@@ -1,4 +1,4 @@
-# Copyright 2026 Transpiler-Mate
+# Copyright 2026 Terradue
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -23,8 +23,7 @@ from transpiler_mate.api import PluginFailureError
 
 WORKFLOW_PROFILE = "https://w3id.org/workflowhub/workflow-ro-crate/1.0"
 RUN_PROFILES = [
-    f"https://w3id.org/ro/wfrun/{kind}/0.5"
-    for kind in ("process", "workflow", "provenance")
+    f"https://w3id.org/ro/wfrun/{kind}/0.5" for kind in ("process", "workflow", "provenance")
 ]
 
 

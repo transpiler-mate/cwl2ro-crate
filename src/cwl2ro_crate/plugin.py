@@ -1,4 +1,4 @@
-# Copyright 2026 Transpiler-Mate
+# Copyright 2026 Terradue
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -70,9 +70,7 @@ def check_paths(options: CWL2ROCrateOptions) -> None:
         names.add(path.name.casefold())
 
 
-def workflow_crate(
-    context: TranspilerContext, packed: dict[str, Any], work: Path
-) -> Any:
+def workflow_crate(context: TranspilerContext, packed: dict[str, Any], work: Path) -> Any:
     source = work / "workflow.cwl"
     source.write_text(json.dumps(packed, indent=2), encoding="utf-8")
     crate = ROCrate(version="1.1")
@@ -128,9 +126,7 @@ def cwl2rocrate(context: TranspilerContext, options: CWL2ROCrateOptions) -> None
     try:
         check_paths(options)
         options.output.parent.mkdir(parents=True, exist_ok=True)
-        with TemporaryDirectory(
-            prefix=".cwl2rocrate-", dir=options.output.parent
-        ) as temporary:
+        with TemporaryDirectory(prefix=".cwl2rocrate-", dir=options.output.parent) as temporary:
             work = Path(temporary).resolve()
             packed = bundle(context, work)
             crate = (
@@ -146,9 +142,7 @@ def cwl2rocrate(context: TranspilerContext, options: CWL2ROCrateOptions) -> None
                     raise PluginFailureError(
                         f"Attachment collides with crate content: {destination}"
                     )
-                crate.add_file(
-                    path.resolve(), destination, properties={"name": path.name}
-                )
+                crate.add_file(path.resolve(), destination, properties={"name": path.name})
             staged = work / "crate"
             crate.write(staged)
             validate(staged, run=options.run is not None)

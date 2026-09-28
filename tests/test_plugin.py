@@ -1,4 +1,4 @@
-# Copyright 2026 Transpiler-Mate
+# Copyright 2026 Terradue
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,16 +19,19 @@ from importlib.metadata import entry_points
 from io import StringIO
 from pathlib import Path
 from typing import Any
+from unittest.mock import Mock
 from zipfile import ZipFile
 
 import pytest
 from click.testing import CliRunner
 from cwltool.main import main as cwl_main
 from pydantic import ValidationError
+from rocrate.rocrate import ROCrate
 from transpiler_mate.api import PluginError, PluginFailureError
 from transpiler_mate.runtime.cli import main
 from transpiler_mate.runtime.context_resolver import DefaultTranspilerContextResolver
 
+from cwl2ro_crate._vendor.runcrate.convert import ProvCrateBuilder
 from cwl2ro_crate.plugin import CWL2ROCrateOptions, cwl2rocrate
 from cwl2ro_crate.validation import RUN_PROFILES, WORKFLOW_PROFILE, validate
 
@@ -93,9 +96,7 @@ def test_workflow_cli_zip_and_attachment(tmp_path: Path) -> None:
     assert any(item["id"] == "#main" for item in packed["$graph"])
     assert any(item["class"] == "CommandLineTool" for item in packed["$graph"])
     assert (output / "attachments/inputs.yaml").read_text() == attached.read_text()
-    assert not any(
-        "CreateAction" in entity.get("@type", []) for entity in entities.values()
-    )
+    assert not any("CreateAction" in entity.get("@type", []) for entity in entities.values())
     with ZipFile(f"{output}.zip") as archive:
         assert "ro-crate-metadata.json" in archive.namelist()
         assert archive.read("attachments/inputs.yaml") == attached.read_bytes()
@@ -106,12 +107,8 @@ def test_run_conversion(context: Any, provenance: Path, tmp_path: Path) -> None:
     original = (provenance / "workflow/packed.cwl").read_bytes()
     cwl2rocrate.execute(context, CWL2ROCrateOptions(output=output, run=provenance))
     entities = graph(output)
-    assert set(RUN_PROFILES).issubset(
-        {ref["@id"] for ref in entities["./"]["conformsTo"]}
-    )
-    actions = [
-        entity for entity in entities.values() if entity.get("@type") == "CreateAction"
-    ]
+    assert set(RUN_PROFILES).issubset({ref["@id"] for ref in entities["./"]["conformsTo"]})
+    actions = [entity for entity in entities.values() if entity.get("@type") == "CreateAction"]
     assert actions
     assert entities["./"]["license"] == "https://spdx.org/licenses/Apache-2.0"
     assert "version" not in entities["./"]
@@ -119,11 +116,7 @@ def test_run_conversion(context: Any, provenance: Path, tmp_path: Path) -> None:
     assert any(action.get("endTime") and action.get("startTime") for action in actions)
     assert (output / "packed.cwl").read_bytes() == original
     assert (provenance / "workflow/packed.cwl").read_bytes() == original
-    assert any(
-        file.read_text() == "Hello world\n"
-        for file in output.iterdir()
-        if file.is_file()
-    )
+    assert any(file.read_text() == "Hello world\n" for file in output.iterdir() if file.is_file())
 
 
 @pytest.mark.parametrize("target", ["directory", "file", "zip", "symlink"])
@@ -165,9 +158,7 @@ def test_missing_attachment(context: Any, tmp_path: Path) -> None:
 
 
 @pytest.mark.parametrize("selection", [None, "missing", "echo"])
-def test_requires_workflow_selection(
-    context: Any, tmp_path: Path, selection: str | None
-) -> None:
+def test_requires_workflow_selection(context: Any, tmp_path: Path, selection: str | None) -> None:
     context = context.model_copy(update={"process_id": selection})
     with pytest.raises(PluginError):
         cwl2rocrate.execute(context, CWL2ROCrateOptions(output=tmp_path / "out"))
@@ -176,14 +167,10 @@ def test_requires_workflow_selection(
 
 def test_mismatched_run(provenance: Path, tmp_path: Path) -> None:
     changed = tmp_path / "changed.cwl"
-    changed.write_text(
-        SOURCE.read_text().replace("baseCommand: echo", "baseCommand: printf")
-    )
+    changed.write_text(SOURCE.read_text().replace("baseCommand: echo", "baseCommand: printf"))
     context = DefaultTranspilerContextResolver().resolve(f"{changed}#hello")
     with pytest.raises(PluginFailureError, match="does not match"):
-        cwl2rocrate.execute(
-            context, CWL2ROCrateOptions(output=tmp_path / "out", run=provenance)
-        )
+        cwl2rocrate.execute(context, CWL2ROCrateOptions(output=tmp_path / "out", run=provenance))
     assert not (tmp_path / "out").exists()
 
 
@@ -194,9 +181,7 @@ def test_invalid_run(context: Any, tmp_path: Path) -> None:
             CWL2ROCrateOptions(output=tmp_path / "out", run=tmp_path / "outputs.json"),
         )
     with pytest.raises(PluginError):
-        cwl2rocrate.execute(
-            context, CWL2ROCrateOptions(output=tmp_path / "out", run=tmp_path)
-        )
+        cwl2rocrate.execute(context, CWL2ROCrateOptions(output=tmp_path / "out", run=tmp_path))
     assert not (tmp_path / "out").exists()
 
 
@@ -208,9 +193,7 @@ def test_validation_failure_cleans_staging(
 
     monkeypatch.setattr("cwl2ro_crate.plugin.validate", fail)
     with pytest.raises(PluginFailureError, match="validation rejected"):
-        cwl2rocrate.execute(
-            context, CWL2ROCrateOptions(output=tmp_path / "out", zip=True)
-        )
+        cwl2rocrate.execute(context, CWL2ROCrateOptions(output=tmp_path / "out", zip=True))
     assert list(tmp_path.iterdir()) == []
 
 
@@ -229,9 +212,7 @@ def test_options_and_registration() -> None:
     with pytest.raises(ValidationError):
         CWL2ROCrateOptions.model_validate({"unknown": 1})
     assert (
-        next(
-            iter(entry_points(group="transpiler_mate.plugins", name="cwl2rocrate"))
-        ).load()
+        next(iter(entry_points(group="transpiler_mate.plugins", name="cwl2rocrate"))).load()
         is cwl2rocrate
     )
 
@@ -239,9 +220,7 @@ def test_options_and_registration() -> None:
 def test_default_values_are_part_of_workflow_identity() -> None:
     from cwl2ro_crate.bundle import canonical
 
-    assert canonical({"default": {"doc": "one"}}) != canonical(
-        {"default": {"doc": "two"}}
-    )
+    assert canonical({"default": {"doc": "one"}}) != canonical({"default": {"doc": "two"}})
     assert canonical({"doc": "one"}) == canonical({"doc": "two"})
 
 
@@ -253,9 +232,7 @@ def test_tampered_bag_rejected(context: Any, provenance: Path, tmp_path: Path) -
     payload = next(path for path in (copied / "data").rglob("*") if path.is_file())
     payload.write_text("changed")
     with pytest.raises(PluginError):
-        cwl2rocrate.execute(
-            context, CWL2ROCrateOptions(output=tmp_path / "out", run=copied)
-        )
+        cwl2rocrate.execute(context, CWL2ROCrateOptions(output=tmp_path / "out", run=copied))
     assert not (tmp_path / "out").exists()
 
 
@@ -277,3 +254,15 @@ def test_failed_zip_write_rolls_back(
         publish(staging, CWL2ROCrateOptions(output=output, zip=True))
     assert not output.exists()
     assert not Path(f"{output}.zip").exists()
+
+
+def test_rejects_main_activity_that_is_not_workflow_run(
+    provenance: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    builder = ProvCrateBuilder(str(provenance))
+    plan = Mock()
+    plan.id.localpart = "main"
+    monkeypatch.setattr(builder, "_resolve_plan", lambda activity: plan)
+    activity = Mock(label="Invalid main activity", type="wfprov:ProcessRun")
+    with pytest.raises(ValueError, match="must be a wfprov:WorkflowRun"):
+        builder.add_action(ROCrate(), activity)

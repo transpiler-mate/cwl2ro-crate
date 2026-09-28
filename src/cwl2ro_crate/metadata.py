@@ -1,4 +1,4 @@
-# Copyright 2026 Transpiler-Mate
+# Copyright 2026 Terradue
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -24,16 +24,14 @@ SCHEMA = "https://schema.org/"
 
 
 def add_value(crate: Any, value: Any, identifier: str) -> Any:
+    """Add nested metadata objects to the crate and return their linked values."""
     if isinstance(value, list):
-        return [
-            add_value(crate, item, f"{identifier}-{index}")
-            for index, item in enumerate(value)
-        ]
+        return [add_value(crate, item, f"{identifier}-{index}") for index, item in enumerate(value)]
     if not isinstance(value, dict):
         return value
     properties = {}
-    for key, item in value.items():
-        key = key.removeprefix(SCHEMA)
+    for source_key, item in value.items():
+        key = source_key.removeprefix(SCHEMA)
         properties[key] = (
             item.removeprefix(SCHEMA)
             if key == "@type" and isinstance(item, str)
@@ -43,11 +41,12 @@ def add_value(crate: Any, value: Any, identifier: str) -> Any:
 
 
 def enrich(crate: Any, metadata: Any, *, run: bool) -> None:
+    """Add software metadata, preserving recorded values for execution crates."""
     data = metadata.model_dump(by_alias=True, exclude_none=True)
     workflow = crate.mainEntity
     mapping = {"softwareVersion": "version", "softwareHelp": "subjectOf"}
-    for key, value in data.items():
-        key = key.removeprefix(SCHEMA)
+    for source_key, value in data.items():
+        key = source_key.removeprefix(SCHEMA)
         if key not in {
             "name",
             "description",
@@ -67,14 +66,11 @@ def enrich(crate: Any, metadata: Any, *, run: bool) -> None:
         if workflow.get(target) is None or not run:
             workflow[target] = converted
         root_field = key != "softwareHelp" and (
-            not run
-            or key in {"license", "author", "contributor", "publisher", "keywords"}
+            not run or key in {"license", "author", "contributor", "publisher", "keywords"}
         )
         if root_field and (
             crate.root_dataset.get(target) is None
-            or (
-                target == "license" and crate.root_dataset.get(target) == "notspecified"
-            )
+            or (target == "license" and crate.root_dataset.get(target) == "notspecified")
             or not run
         ):
             crate.root_dataset[target] = converted

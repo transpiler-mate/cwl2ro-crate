@@ -28,7 +28,7 @@ import networkx as nx
 import prov.model
 from bdbag.bdbagit import BDBag
 from cwl_utils.parser import load_document_by_yaml
-from cwlprov.prov import Entity, Provenance
+from cwlprov.prov import Activity, Entity, Provenance
 from cwlprov.ro import ResearchObject
 from cwlprov.utils import first
 from rocrate.model.contextentity import ContextEntity
@@ -254,7 +254,8 @@ class ProvCrateBuilder:
                 plan = activity.provenance.entity(m.groups()[0])
         return plan
 
-    def _get_hash(self, prov_param):
+    def _get_hash(self, prov_param: Entity) -> str | None:
+        """Return a CWLProv content identifier for a file or folder entity."""
         k = prov_param.id.localpart
         try:
             return self.hashes[k]
@@ -265,7 +266,8 @@ class ProvCrateBuilder:
                 self.hashes[k] = hash_
                 return hash_
             elif "ro:Folder" in type_names:
-                m = hashlib.sha1()
+                # CWLProv-compatible content identifier, not a security digest.
+                m = hashlib.sha1(usedforsecurity=False)
                 m.update("".join(sorted(
                     self._get_hash(_) for _ in self.get_dict(prov_param).values()
                 )).encode())
@@ -490,7 +492,15 @@ class ProvCrateBuilder:
             ro_a = crate.add(ContextEntity(crate, agent_id, properties=properties))
             roc_engine_run.append_to("agent", ro_a, compact=True)
 
-    def add_action(self, crate, activity, parent_instrument=None):
+    def add_action(
+        self, crate: ROCrate, activity: Activity,
+        parent_instrument: ContextEntity | None = None,
+    ) -> None:
+        """Add an execution action and its nested steps to the crate.
+
+        Raises:
+            ValueError: If the main activity is not a workflow run.
+        """
         workflow = crate.mainEntity
         action = crate.add(ContextEntity(crate, properties={
             "@type": "CreateAction",
@@ -499,7 +509,8 @@ class ProvCrateBuilder:
         plan = self._resolve_plan(activity)
         plan_tag = plan.id.localpart
         if plan_tag == "main":
-            assert str(activity.type) == "wfprov:WorkflowRun"
+            if str(activity.type) != "wfprov:WorkflowRun":
+                raise ValueError("The main activity must be a wfprov:WorkflowRun")
             instrument = workflow
             self.roc_engine_run["result"] = action
             crate.root_dataset["mentions"] = [action]

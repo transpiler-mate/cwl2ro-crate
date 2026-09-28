@@ -1,4 +1,4 @@
-# Copyright 2026 Transpiler-Mate
+# Copyright 2026 Terradue
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -34,9 +34,7 @@ if TYPE_CHECKING:
 
 def build_run(context: Any, run: Path, packed: dict[str, Any], directory: Path) -> Any:
     if not run.is_dir():
-        raise PluginFailureError(
-            "--run must be a CWLProv directory, not output JSON or a ZIP."
-        )
+        raise PluginFailureError("--run must be a CWLProv directory, not output JSON or a ZIP.")
     bagit.Bag(str(run)).validate()
     source = run / "workflow" / "packed.cwl"
     if not source.is_file():
@@ -45,9 +43,7 @@ def build_run(context: Any, run: Path, packed: dict[str, Any], directory: Path) 
     processes = loaded if isinstance(loaded, list) else [loaded]
     index = to_index(processes)
     if "main" not in index:
-        raise PluginFailureError(
-            "CWLProv packed workflow must contain the main entrypoint."
-        )
+        raise PluginFailureError("CWLProv packed workflow must contain the main entrypoint.")
     recorded = context.model_copy(update={"document": index, "process_id": "main"})
     if canonical(bundle(recorded, directory)) != canonical(packed):
         raise PluginFailureError(

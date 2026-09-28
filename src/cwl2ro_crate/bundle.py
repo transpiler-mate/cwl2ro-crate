@@ -1,4 +1,4 @@
-# Copyright 2026 Transpiler-Mate
+# Copyright 2026 Terradue
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -39,9 +39,7 @@ def bundle(context: TranspilerContext, directory: Path) -> dict[str, Any]:
     source.write_text(
         json.dumps(save(list(context.processes), relative_uris=False)), encoding="utf-8"
     )
-    return dict(
-        pack(LoadingContext(), f"{source.as_uri()}#{quote(process.id, safe='/')}")
-    )
+    return dict(pack(LoadingContext(), f"{source.as_uri()}#{quote(process.id, safe='/')}"))
 
 
 def canonical(value: Any, *, literal: bool = False) -> Any:
