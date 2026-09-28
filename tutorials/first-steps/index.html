@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://Transpiler-Mate.github.io/cwl2ro-crate/tutorials/first-steps/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>First steps - CWL 2 RO-Crate</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "First steps";
+        var mkdocs_page_input_path = "tutorials/first-steps.md";
+        var mkdocs_page_url = "/cwl2ro-crate/tutorials/first-steps/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> CWL 2 RO-Crate
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Tutorials</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../">Overview</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">First steps</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#package-the-definition">Package the definition</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#capture-and-package-a-run">Capture and package a run</a>
+    </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">How-to guides</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../how-to/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../how-to/install/">Install</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../how-to/use-cli/">Use the CLI</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../reference/api/">API</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Explanation</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../explanation/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../explanation/architecture/">Architecture</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">CWL 2 RO-Crate</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Tutorials</li>
+      <li class="breadcrumb-item active">First steps</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/Transpiler-Mate/cwl2ro-crate/edit/main/docs/tutorials/first-steps.md">Edit on cwl2ro-crate</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <!--
+Copyright 2026 Terradue
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<h1 id="first-steps">First steps<a class="headerlink" href="#first-steps" title="Permanent link">&para;</a></h1>
+<p>From the checkout, install the plugin and runtime:</p>
+<div class="highlight"><pre><span></span><code><span class="go">python -m pip install . transpiler-mate-runtime</span>
+</code></pre></div>
+<p>The example <code>tests/fixtures/workflow.cwl</code> contains software metadata, a workflow
+with a string input, and an <code>echo</code> tool producing a text file.</p>
+<h2 id="package-the-definition">Package the definition<a class="headerlink" href="#package-the-definition" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="go">transpiler-mate cwl2rocrate --output build/definition --zip \</span>
+<span class="go">  'tests/fixtures/workflow.cwl#hello'</span>
+</code></pre></div>
+<p>Inspect <code>build/definition/ro-crate-metadata.json</code> and <code>workflow.cwl</code>. The crate
+identifies the packed workflow as its main entity and describes its authors,
+license, and version. <code>build/definition.zip</code> is ready to upload separately.</p>
+<h2 id="capture-and-package-a-run">Capture and package a run<a class="headerlink" href="#capture-and-package-a-run" title="Permanent link">&para;</a></h2>
+<p>This example only runs the local <code>echo</code> command and needs no container:</p>
+<div class="highlight"><pre><span></span><code><span class="go">cwltool --no-container --provenance build/provenance --outdir build/results \</span>
+<span class="go">  'tests/fixtures/workflow.cwl#hello'</span>
+<span class="go">transpiler-mate cwl2rocrate --run build/provenance \</span>
+<span class="go">  --output build/execution --zip 'tests/fixtures/workflow.cwl#hello'</span>
+</code></pre></div>
+<p>The execution crate includes <code>packed.cwl</code>, the input document, the recorded
+output payload (stored under its content hash), and metadata connecting workflow
+and step actions to inputs and outputs. Both commands use the default message.
+Run-profile validation is performed before the crate is published locally.</p>
+<p>Use fresh output paths when repeating the tutorial. Publishing to WorkflowHub or
+an archive is a separate action.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../" class="btn btn-neutral float-left" title="Overview"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../how-to/" class="btn btn-neutral float-right" title="Overview">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/Transpiler-Mate/cwl2ro-crate" class="fa fa-code-fork" style="color: #fcfcfc"> cwl2ro-crate</a>
+        </span>
+    
+    
+      <span><a href="../" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../../how-to/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

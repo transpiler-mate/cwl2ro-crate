@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://Transpiler-Mate.github.io/cwl2ro-crate/reference/api/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>API - CWL 2 RO-Crate</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "API";
+        var mkdocs_page_input_path = "reference/api.md";
+        var mkdocs_page_url = "/cwl2ro-crate/reference/api/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> CWL 2 RO-Crate
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Tutorials</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../tutorials/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../tutorials/first-steps/">First steps</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">How-to guides</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../how-to/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../how-to/install/">Install</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../how-to/use-cli/">Use the CLI</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../">Overview</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">API</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#profile-contract">Profile contract</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#cwl2ro_crate.plugin">plugin</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#cwl2ro_crate.plugin.publish">publish</a>
+    </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Explanation</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../explanation/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../explanation/architecture/">Architecture</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">CWL 2 RO-Crate</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Reference</li>
+      <li class="breadcrumb-item active">API</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/Transpiler-Mate/cwl2ro-crate/edit/main/docs/reference/api.md">Edit on cwl2ro-crate</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <!--
+Copyright 2026 Terradue
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<h1 id="reference">Reference<a class="headerlink" href="#reference" title="Permanent link">&para;</a></h1>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--output</code></td>
+<td>Path</td>
+<td><code>ro-crate</code></td>
+<td>New destination directory.</td>
+</tr>
+<tr>
+<td><code>--run</code></td>
+<td>Optional path</td>
+<td>None</td>
+<td>Complete CWLProv directory.</td>
+</tr>
+<tr>
+<td><code>--attach</code></td>
+<td>Repeatable path</td>
+<td>Empty</td>
+<td>Local files to include.</td>
+</tr>
+<tr>
+<td><code>--zip</code></td>
+<td>Flag</td>
+<td>False</td>
+<td>Also create <code>&lt;output&gt;.zip</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>The source is the runtime's positional <code>SOURCE</code>, including <code>#&lt;process-id&gt;</code>.
+The package entry point is <code>cwl2ro_crate.plugin:cwl2rocrate</code> in
+<code>transpiler_mate.plugins</code>. Unknown options are rejected.</p>
+<h2 id="profile-contract">Profile contract<a class="headerlink" href="#profile-contract" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>Declared profiles</th>
+<th>Validator target</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Workflow</td>
+<td>RO-Crate 1.1; Workflow RO-Crate 1.0</td>
+<td><code>workflow-ro-crate-1.0</code></td>
+</tr>
+<tr>
+<td>Run</td>
+<td>Above plus Process/Workflow/Provenance Run Crate 0.5</td>
+<td><code>provenance-run-crate-0.5</code></td>
+</tr>
+</tbody>
+</table>
+<p>Validation includes inherited profiles at REQUIRED severity using roc-validator
+0.11.4. Profile conformance does not assert successful execution: recorded run
+facts are retained, and absent execution status is not manufactured.</p>
+<p>Workflow metadata maps name, description, software version, license, authors,
+contributors, publisher, identifier, creation date, keywords, and help resources.
+Nested people, organizations, roles, and resources become linked entities.
+Run-mode enrichment fills missing fields, including the converter's unspecified
+license placeholder, without replacing recorded actions or data. Workflow identifiers, versions, and
+creation dates describe the workflow entity; they are not assigned to the run
+crate itself.</p>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="cwl2ro_crate.plugin"></a>
+    <div class="doc doc-contents first">
+
+        <p>Transpiler-Mate plugin for workflow and execution RO-Crates.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="cwl2ro_crate.plugin.publish" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">publish</span><span class="p">(</span><span class="n">staged</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span></code>
+
+<a href="#cwl2ro_crate.plugin.publish" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Publish validated artifacts with exclusive creation; roll back our own files.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/cwl2ro_crate/plugin.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">publish</span><span class="p">(</span><span class="n">staged</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="n">CWL2ROCrateOptions</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Publish validated artifacts with exclusive creation; roll back our own files."""</span>
+    <span class="n">created_output</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">created_zip</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">archive</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">options</span><span class="o">.</span><span class="n">output</span><span class="si">}</span><span class="s2">.zip"</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">options</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">mkdir</span><span class="p">()</span>  <span class="c1"># Exclusive reservation, including empty existing directories.</span>
+        <span class="n">created_output</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">copytree</span><span class="p">(</span><span class="n">staged</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">output</span><span class="p">,</span> <span class="n">dirs_exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">zip</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">archive</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">"xb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">stream</span><span class="p">:</span>
+                <span class="n">created_zip</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">with</span> <span class="n">ZipFile</span><span class="p">(</span><span class="n">stream</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">,</span> <span class="n">ZIP_DEFLATED</span><span class="p">)</span> <span class="k">as</span> <span class="n">zipped</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">staged</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">"*"</span><span class="p">)):</span>
+                        <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
+                            <span class="n">zipped</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">file</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">staged</span><span class="p">)</span><span class="o">.</span><span class="n">as_posix</span><span class="p">())</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">created_zip</span><span class="p">:</span>
+            <span class="n">archive</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">created_output</span><span class="p">:</span>
+            <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">output</span><span class="p">)</span>
+        <span class="k">raise</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../" class="btn btn-neutral float-left" title="Overview"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../explanation/" class="btn btn-neutral float-right" title="Overview">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/Transpiler-Mate/cwl2ro-crate" class="fa fa-code-fork" style="color: #fcfcfc"> cwl2ro-crate</a>
+        </span>
+    
+    
+      <span><a href="../" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../../explanation/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
